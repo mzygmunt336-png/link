@@ -50,7 +50,6 @@
             text-decoration: none;
             font-weight: 500;
             transition: opacity 0.3s ease;
-           
         }
 
         .Oferty a:hover {
@@ -178,6 +177,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            text-decoration: none;
         }
 
         button:hover {
@@ -189,6 +189,27 @@
             transform: translateY(0);
         }
 
+        .hero-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            width: fit-content;
+        }
+
+        .hero-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
         footer {
             background-color: #333;
             color: white;
@@ -196,6 +217,10 @@
             padding: 30px;
             margin-top: 60px;
             font-size: 14px;
+        }
+        a {
+            color: #667eea;
+            text-decoration: none;
         }
 
         .polecenie {
@@ -537,7 +562,7 @@
                 <h1>Superszybki i niezawodny
                     hosting dla Twojej witryny</h1>
                 <p>Wybierz pakiet dopasowany do Twoich potrzeb i rozpocznij działanie z pełnym wsparciem oraz stabilną infrastrukturą.</p>
-                <button><a href="#offerts">Oferty</a></button>
+                <a class="hero-button" href="#offerts">Oferty</a>
             </div>
         </section>
         <section class="polecenie" id="polecenie">
@@ -665,7 +690,7 @@
                     <div class="plan-price">299 zł</div>
                     <div class="plan-period">/ miesiąc</div>
                     <ul class="plan-features">
-                        <li>Od 100 GB do kilku TB</li>
+                        <li>Od 100 GB do 1TB</li>
                         <li>Pełne dedykowane zasoby</li>
                         <li>Root, Docker, Node.js, Ubuntu/Debian</li>
                         <li>Możliwość Managed VPS</li>
