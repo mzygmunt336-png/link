@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koszyk</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f3f6ff;
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .cart-card {
+            width: min(900px, 100%);
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            margin: 40px auto;
+        }
+
+        .cart-card h1 {
+            margin-bottom: 16px;
+            font-size: 32px;
+            color: #2d3748;
+        }
+
+        .cart-card p {
+            color: #4a5568;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .cart-empty,
+        .cart-content {
+            background: #eef2ff;
+            border: 1px solid #c3dafe;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .cart-empty {
+            text-align: center;
+        }
+
+        .cart-empty h2 {
+            margin-bottom: 12px;
+            font-size: 24px;
+        }
+
+        .cart-empty p {
+            margin-bottom: 20px;
+        }
+
+        .cart-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 20px;
+            border-radius: 12px;
+            background: white;
+            border: 1px solid #dbeafe;
+        }
+
+        .cart-item-info h3 {
+            margin-bottom: 4px;
+            font-size: 20px;
+            color: #2d3748;
+        }
+
+        .cart-item-info p {
+            margin: 0;
+            color: #4a5568;
+        }
+
+        .cart-item-price {
+            font-weight: 700;
+            color: #2d3748;
+            white-space: nowrap;
+        }
+
+        .cart-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #c3dafe;
+        }
+
+        .cart-summary strong {
+            font-size: 22px;
+            color: #2d3748;
+        }
+
+        .cart-summary span {
+            font-size: 18px;
+            color: #4a5568;
+        }
+
+        .button,
+    
+        .button-danger {
+            display: inline-block;
+            padding: 14px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        
+
+        .button-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+        }
+
+        .button:hover,
+        
+        .button-danger:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        @media (max-width: 640px) {
+            .cart-item,
+            .cart-summary {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-card">
+        <h1>Twój koszyk</h1>
+        <p>Sprawdź swoje wybrane usługi hostingowe i domeny. Możesz wrócić do oferty, aby dodać więcej pozycji.</p>
+
+        <div class="cart-empty" id="empty-state">
+            <h2>Twój koszyk jest pusty</h2>
+            <p>Na razie nie dodałeś żadnych usług. Przejdź do oferty, aby wybrać pakiet lub domenę.</p>
+            <div class="cart-actions">
+                <a class="button" href="index.html">Przejdź do oferty</a>
+               
+            </div>
+        </div>
+
+        <div class="cart-content" id="filled-state" hidden>
+            <div class="cart-items" id="cart-items"></div>
+            <div class="cart-summary">
+                <strong>Suma:</strong>
+                <span id="cart-total">0 zł</span>
+            </div>
+            <div class="cart-actions" style="margin-top: 24px; justify-content: flex-start;">
+                <button class="button-secondary" id="clear-cart">Wyczyść koszyk</button>
+                <a class="button" href="index.html">Dodaj więcej</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const storageKey = 'hostingCart';
+
+        function getCart() {
+            try {
+                return JSON.parse(localStorage.getItem(storageKey) || '[]');
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem(storageKey, JSON.stringify(cart));
+        }
+
+        function formatPrice(value) {
+            return `${value.toFixed(0)} zł`;
+        }
+
+        function renderCart() {
+            const cart = getCart();
+            const emptyState = document.getElementById('empty-state');
+            const filledState = document.getElementById('filled-state');
+            const cartItems = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+
+            cartItems.innerHTML = '';
+
+            if (!cart.length) {
+                emptyState.hidden = false;
+                filledState.hidden = true;
+                return;
+            }
+
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price;
+                total += itemTotal;
+
+                const itemNode = document.createElement('div');
+                itemNode.className = 'cart-item';
+                itemNode.innerHTML = `
+                    <div class="cart-item-info">
+                        <h3>${item.name}</h3>
+                        <p>${item.period}</p>
+                    </div>
+                    <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                `;
+
+                cartItems.appendChild(itemNode);
+            });
+
+            totalEl.textContent = formatPrice(total);
+            emptyState.hidden = true;
+            filledState.hidden = false;
+        }
+
+        document.getElementById('clear-cart').addEventListener('click', () => {
+            saveCart([]);
+            renderCart();
+        });
+
+        renderCart();
+    </script>
+</body>
+</html>
