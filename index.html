@@ -1,745 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hosting</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      h1 {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      a {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      h2 {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #main-nav {
+        display: flex;
+        padding: 15px 20px;
+        justify-content: space-between;
+        background-color: #000000;
+      }
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        justify-content: center;
+      }
+      input {
+        display: none;
+      }
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        display: block;
+        margin: 2.5px 0;
+      }
+      @media (min-width: 768px) {
+        .hamburger {
+          display: none;
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: white;
-        }
-
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 40px;
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .Oferty {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-            flex-shrink: 0;
-        }
-
-        .Oferty a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s ease;
-        }
-
-        .Oferty a:hover {
-            opacity: 0.8;
-        }
-
         .menu {
-            list-style: none;
-            display: flex;
-            gap: 30px;
-            flex: 1;
-            justify-content: flex-end;
+          list-style: none;
+          display: flex !important;
+          gap: 20px;
+          position: static;
+          flex-direction: row;
+          align-items: center;
+          font-size: 18px;
+          left: 0;
+          top: 0;
+          background: none;
+          height: auto;
+          width: auto;
         }
-
-        .menu a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 8px 16px;
-            border-radius: 4px;
+        #menu-toggle:checked ~ .menu {
+          display: flex !important;
         }
-
-        .menu a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+      }
+      @media (max-width: 767px) {
+        .menu {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: center;
+          position: absolute;
+          top: 60px;
+          left: -100%;
+          transition: left 0.3s ease-in-out;
+          gap: 40px;
+          font-size: 40px;
+          width: 100%;
+          background-color: #333;
+          height: calc(100vh - 60px);
+          margin: 0;
+          padding: 0;
         }
-
-        .cart {
-            flex-shrink: 0;
-            text-align: right;
+        #menu-toggle:checked ~ .menu {
+          left: 0;
         }
-
-        .cart a {
-            color: white;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
+        /* Hamburger animacja */
+        #menu-toggle:checked ~ label span:first-child {
+          display: none;
         }
-
-        .cart a:hover {
-            transform: scale(1.1);
+        #menu-toggle:checked ~ label span:nth-child(2) {
+          transform: rotate(45deg);
+          position: relative;
+          top: 5px;
         }
-
-        .cart a svg {
-            width: 28px;
-            height: 28px;
-            display: block;
-            fill: currentColor;
+        #menu-toggle:checked ~ label span:last-child {
+          transform: rotate(-45deg);
+          position: relative;
+          top: -5px;
         }
-
-        main {
-            max-width: 1200px;
-            margin: 60px auto;
-            padding: 0 20px;
-            background: white;
-        }
-
-        .placeholder {
-            height: 800px;
-            width: 100%;
-            display: flex;
-            gap: 50px;
-            align-items: center;
-            background: white;
-        }
-
-        .left-placeholder {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-visual {
-            width: min(100%, 520px);
-            background: linear-gradient(180deg, #f8fbff 0%, #eef2ff 100%);
-            border-radius: 28px;
-            padding: 24px;
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.16);
-        }
-
-        .hero-visual svg {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .hero-caption {
-            margin-top: 14px;
-            text-align: center;
-            color: #4a5568;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .right-placeholder {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .right-placeholder h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
-            color: #667eea;
-        }
-
-        .right-placeholder p {
-            font-size: 16px;
-            margin-bottom: 30px;
-            color: #666;
-            line-height: 1.8;
-        }
-
-        button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            text-decoration: none;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .hero-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            padding: 12px 40px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            width: fit-content;
-        }
-
-        .hero-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 30px;
-            margin-top: 60px;
-            font-size: 14px;
-        }
-        a {
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .polecenie {
-            margin-top: 80px;
-            padding: 60px 0;
-            background: #f8f9fa;
-            border-radius: 8px;
-        }
-
-        .polecenie h2 {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 50px;
-            color: #333;
-        }
-
-        .testimonials {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 0 20px;
-        }
-
-        .testimonial-card {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
-        }
-
-        .stars {
-            color: #ffc107;
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-
-        .testimonial-text {
-            color: #666;
-            font-size: 15px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-            font-style: italic;
-        }
-
-        .author {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .position {
-            color: #667eea;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .stats {
-            margin-top: 80px;
-            padding: 60px 20px;
-            background: white;
-            border-radius: 8px;
-        }
-
-        .stats h2 {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 50px;
-            color: #333;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 48px;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 16px;
-            color: #666;
-            font-weight: 500;
-            line-height: 1.6;
-        }
-
-        .benefits {
-            margin-top: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 60px 20px;
-            border-radius: 8px;
-            color: white;
-        }
-
-        .benefits h2 {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 40px;
-            color: white;
-        }
-
-        .benefits-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .benefit-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid #ffc107;
-            backdrop-filter: blur(10px);
-        }
-
-        .benefit-item h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .benefit-item p {
-            font-size: 14px;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-
-        .Offerts {
-            margin-top: 80px;
-            padding: 60px 20px;
-            background: white;
-            border-radius: 8px;
-        }
-
-        .Offerts h3 {
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 50px;
-            color: #333;
-        }
-
-        .Offerts-list {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-            align-items: stretch;
-        }
-
-        .Offerts-item {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            padding: 40px 30px;
-            color: white;
-            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .Offerts-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
-        }
-      
-        .plan-name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .plan-price {
-            font-size: 48px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .plan-period {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            padding-bottom: 30px;
-        }
-
-        .plan-features {
-            text-align: left;
-            margin-bottom: 30px;
-            flex: 1;
-        }
-
-        .plan-features li {
-            list-style: none;
-            padding: 10px 0;
-            font-size: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .plan-features li:last-child {
-            border-bottom: none;
-        }
-
-        .plan-features li::before {
-            content: "✓";
-            font-weight: 700;
-            font-size: 18px;
-            color: #ffc107;
-        }
-
-        .plan-button {
-            background: white;
-            color: #667eea;
-            border: none;
-            padding: 12px 40px;
-            font-size: 16px;
-            font-weight: 600;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: auto;
-        }
-
-        .plan-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .Offerts-list {
-                grid-template-columns: 1fr;
-            }
-
-            header {
-                flex-wrap: wrap;
-                gap: 20px;
-                padding: 15px 20px;
-            }
-
-            header h1 {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 10px;
-            }
-
-            .Oferty, .menu {
-                width: 100%;
-                justify-content: center;
-                gap: 15px;
-            }
-
-            .cart {
-                width: 100%;
-                text-align: center;
-            }
-
-            .placeholder {
-                flex-direction: column;
-                gap: 30px;
-                padding: 20px;
-            }
-
-            .right-placeholder h1 {
-                font-size: 24px;
-            }
-        }
+      }
+      .menu li a {
+        color: white;
+        text-decoration: none;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #hero {
+        display: flex;
+        background-image: url("https://szkoleniacss.com/wp-content/uploads/2019/09/kawa-dzialanie-960x540.jpg");
+        height: 600px;
+        width: 100%;
+      }
+      #hero-content {
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        height: 200px;
+        width: 400px;
+        flex-direction: column;
+        border-radius: 5px;
+        align-self: center;
+        margin-left: 100px;
+        padding: 60px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #hero-content button {
+        margin-top: 20px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: rgba(212, 115, 30, 0.938);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        width: 150px;
+      }
+      #hero-content h1 {
+        color: rgba(212, 115, 30, 0.938);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #info-kawy {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        width: 80%;
+        height: auto;
+        margin: auto;
+        justify-content: center;
+      }
+      #kawa {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+        margin: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        width: 400px;
+        height: 175px;
+      }
+      #kawa:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+        transition: all 0.3s ease;
+      }
+      #asortyment h1 {
+        text-align: center;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #info-Onas {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 400px;
+        background-color: #ffffff;
+        margin-top: 40px;
+      }
+      #Onas {
+        width: 500px;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        border: 1px solid #7e7d7d;
+        border-radius: 10px;
+        padding: 20px;
+      }
+      #info-Onas h1 {
+        text-align: center;
+        margin-top: 20px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      #Kontakt {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        flex-direction: column;
+        color: white;
+        width: 100%;
+        height: auto;
+        background-color: #000000;
+        margin-top: 100px;
+      }
+      #Kontakt h1 {
+        text-align: center;
+        margin-top: 20px;
+      }
+      #Kontakt p {
+        text-align: flex-start;
+        margin-left: 40%;
+      }
     </style>
-</head>
-<body>
-    <header>
-        <h1>Hosting</h1>
-        <ul class="Oferty">
-            <li><a href="#domeny">Hosting</a></li>
-        </ul>
-        <ul class="menu">
-            <li><a href="#placeholder">Strona główna</a></li>
-            <li><a href="#polecenie">O nas</a></li>
-            <li><a href="#offerts">Oferty</a></li>
-            <li><a href="#kontakt">Kontakt</a></li>
-        </ul>
-        <div class="cart">
-            <a href="koszyk.html" aria-label="Przejdź do koszyka">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 6h14l-1.5 7.5h-10L5.5 4H2V2h4.5l1 2zm1 12a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 5l1.5 7.5h9L20 5H8z"/>
-                </svg>
-            </a>
-        </div>
-    </header>
-    <main>
-        <section class="placeholder" id="placeholder">
-            <div class="left-placeholder">
-                <div class="hero-visual">
-                    <svg viewBox="0 0 520 360" role="img" aria-label="Ilustracja hostingu">
-                        <rect x="35" y="55" width="450" height="245" rx="24" fill="#ffffff"/>
-                        <rect x="55" y="80" width="410" height="24" rx="12" fill="#e2e8f0"/>
-                        <rect x="55" y="120" width="180" height="140" rx="16" fill="#667eea" opacity="0.12"/>
-                        <rect x="250" y="120" width="215" height="16" rx="8" fill="#cbd5e1"/>
-                        <rect x="250" y="150" width="180" height="12" rx="6" fill="#e2e8f0"/>
-                        <rect x="250" y="176" width="150" height="12" rx="6" fill="#e2e8f0"/>
-                        <rect x="250" y="218" width="130" height="12" rx="6" fill="#cbd5e1"/>
-                        <circle cx="96" cy="192" r="34" fill="#667eea"/>
-                        <rect x="145" y="170" width="46" height="12" rx="6" fill="#667eea" opacity="0.85"/>
-                        <rect x="145" y="194" width="68" height="10" rx="5" fill="#94a3b8"/>
-                        <path d="M385 242C392 230 407 224 420 228C433 232 442 244 440 257C438 270 426 278 412 279C398 280 386 275 381 264" fill="#10b981"/>
-                        <circle cx="410" cy="250" r="18" fill="#ffffff"/>
-                        <path d="M405 250L409 254L417 246" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                        <path d="M66 288H454" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round"/>
-                    </svg>
-                    <p class="hero-caption">Szybki, bezpieczny hosting dla stron firmowych, sklepów i projektów WordPress.</p>
-                </div>
-            </div>
-            <div class="right-placeholder">
-                <h1>Superszybki i niezawodny
-                    hosting dla Twojej witryny</h1>
-                <p>Wybierz pakiet dopasowany do Twoich potrzeb i rozpocznij działanie z pełnym wsparciem oraz stabilną infrastrukturą.</p>
-                <a class="hero-button" href="#offerts">Oferty</a>
-            </div>
-        </section>
-        <section class="polecenie" id="polecenie">
-            <h2>Polecenia od liderów branży</h2>
-            <div class="testimonials">
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Hosting, z którego korzystamy, to absolutnie najlepsza opcja na rynku. Niezawodność i szybkość działania przekroczyły nasze oczekiwania."</p>
-                    <div class="author">Jan Kowalski</div>
-                    <div class="position">CEO, TechCorp Polska</div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Wspaniały serwis obsługi klienta i infrastruktura, którą można całkowicie polecić każdemu biznesowi. Byliśmy zachwyceni od pierwszego dnia."</p>
-                    <div class="author">Maria Nowak</div>
-                    <div class="position">Prezes, Digital Solutions Inc.</div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p class="testimonial-text">"Najlepsza inwestycja dla naszego projektu. Szybkość ładowania strony zwiększyła się o 60%, a koszty spadły. Polecam wszystkim!"</p>
-                    <div class="author">Piotr Lewandowski</div>
-                    <div class="position">Dyrektor IT, StartUp Hub</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="stats">
-            <h2>Zaufaj nam</h2>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">50,000+</div>
-                    <div class="stat-label">Aktywnych użytkowników na całym świecie</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Gwarancja dostępności usługi (SLA)</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">2.5M</div>
-                    <div class="stat-label">Domen hostowanych na naszych serwerach</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Wsparcie techniczne dostępne zawsze</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="benefits">
-            <h2>Dlaczego wybrać nasz hosting?</h2>
-            <div class="benefits-list">
-                <div class="benefit-item">
-                    <h3>⚡ Superszybkość</h3>
-                    <p>Średni czas ładowania strony poniżej 1 sekundy dzięki zaawansowanej infrastrukturze i CDN.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>🔒 Bezpieczeństwo</h3>
-                    <p>Zaawansowana ochrona przed atakami DDoS, certyfikaty SSL i regularne kopie zapasowe.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>💰 Konkurencyjne ceny</h3>
-                    <p>Najlepszy stosunek ceny do jakości na rynku. Brak ukrytych opłat.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>🛠️ Łatwa konfiguracja</h3>
-                    <p>Intuitywny panel kontrolny i dokumentacja dostępna w polskim języku.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>📈 Skalowanie</h3>
-                    <p>Łatwe powiększanie zasobów w miarę wzrostu Twojego biznesu bez przestojów.</p>
-                </div>
-                <div class="benefit-item">
-                    <h3>🌍 Globalna sieć</h3>
-                    <p>Serwery rozmieszczone na całym świecie zapewniają szybki dostęp z każdego miejsca.</p>
-                </div>
-            </div>
-        </section>
-        <section class="Offerts" id="offerts">
-            <h3>Wybierz swój plan</h3>
-            <div class="Offerts-list">
-                <div class="Offerts-item">
-                    <div class="plan-name">Start / Wizytówka</div>
-                    <div class="plan-price">49 zł</div>
-                    <div class="plan-period">/ miesiąc</div>
-                    <ul class="plan-features">
-                        <li>10 GB - 50 GB SSD/NVMe</li>
-                        <li>Transfer bez limitu</li>
-                        <li>Do 10 skrzynek e-mail</li>
-                        <li>1 - 5 baz MySQL</li>
-                        <li>SSL, backup co 24h</li>
-                    </ul>
-                    <button class="plan-button">Zamów teraz</button>
-                </div>
-
-                <div class="Offerts-item">
-                    <div class="plan-name">Biznes / WordPress</div>
-                    <div class="plan-price">99 zł</div>
-                    <div class="plan-period">/ miesiąc</div>
-                    <ul class="plan-features">
-                        <li>50 GB - 100 GB NVMe</li>
-                        <li>Transfer bez limitu</li>
-                        <li>E-maile bez limitu</li>
-                        <li>Bez limitu baz MySQL</li>
-                        <li>izolacja stron, backup 7-14 dni</li>
-                    </ul>
-                    <button class="plan-button">Zamów teraz</button>
-                </div>
-
-                <div class="Offerts-item">
-                    <div class="plan-name">E-commerce / Pro</div>
-                    <div class="plan-price">199 zł</div>
-                    <div class="plan-period">/ miesiąc</div>
-                    <ul class="plan-features">
-                        <li>100 GB - 250 GB NVMe</li>
-                        <li>Transfer bez limitu</li>
-                        <li>SSH, GIT, staging</li>
-                        <li>Przyspieszenie baz danych</li>
-                        <li>Wsparcie priorytetowe SLA 99,9%</li>
-                    </ul>
-                    <button class="plan-button">Zamów teraz</button>
-                </div>
-
-                <div class="Offerts-item">
-                    <div class="plan-name">VPS / Cloud</div>
-                    <div class="plan-price">299 zł</div>
-                    <div class="plan-period">/ miesiąc</div>
-                    <ul class="plan-features">
-                        <li>Od 100 GB do 1TB</li>
-                        <li>Pełne dedykowane zasoby</li>
-                        <li>Root, Docker, Node.js, Ubuntu/Debian</li>
-                        <li>Możliwość Managed VPS</li>
-                        <li>Dostosowane zasoby dla dużej skali</li>
-                    </ul>
-                    <button class="plan-button">Zamów teraz</button>
-                </div>
-            </div>
-        </section>
-            
-    </main>
-    <footer>
-        <div class="footer-contact" id="kontakt">
-            <p>Kontakt:</p>
-            <p>Email: <a href="mailto:kontakt@hosting.pl">kontakt@hosting.pl</a></p>
-            <p>Telefon: +48 123 456 789</p>
-        </div>
-    </footer>
-    <script>
-        const cartStorageKey = 'hostingCart';
-
-        function getCart() {
-            try {
-                return JSON.parse(localStorage.getItem(cartStorageKey) || '[]');
-            } catch (error) {
-                return [];
-            }
-        }
-
-        function saveCart(cart) {
-            localStorage.setItem(cartStorageKey, JSON.stringify(cart));
-        }
-
-        function addPlanToCart(button) {
-            const item = {
-                name: button.closest('.Offerts-item')?.querySelector('.plan-name')?.textContent?.trim() || 'Pakiet',
-                price: Number(button.closest('.Offerts-item')?.querySelector('.plan-price')?.textContent?.replace(/[^\d]/g, '') || 0),
-                period: button.closest('.Offerts-item')?.querySelector('.plan-period')?.textContent?.trim() || '/ miesiąc'
-            };
-
-            const cart = getCart();
-            cart.push(item);
-            saveCart(cart);
-            window.location.href = 'koszyk.html';
-        }
-
-        document.querySelectorAll('.plan-button').forEach((button) => {
-            button.addEventListener('click', () => addPlanToCart(button));
-        });
-    </script>
-</body>
+  </head>
+  <body>
+    <nav id="main-nav">
+      <img src="https://picsum.photos/150/50" alt="logo" />
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+      <ul class="menu">
+        <li><a href="#hero">Start</a></li>
+        <li><a href="#info-kawy">Oferta</a></li>
+        <li><a href="#info-Onas">O nas</a></li>
+        <li><a href="#Kontakt">Kontakt</a></li>
+      </ul>
+    </nav>
+    <dev id="hero">
+      <dev id="hero-content">
+        <h1>Kawiarnia Ziarenko</h1>
+        <a>Najlepsza kawa w twojeje okolicy</a>
+        <button>Zobacz manu</button>
+      </dev>
+    </dev>
+    <dev id="asortyment">
+      <h1>Nasze kawy</h1>
+      <dev id="info-kawy">
+        <dev id="kawa">
+          <img
+            src="link/obrazy/—Pngtree—a shot of espresso coffee_19650264.png"
+            style="height: 120px; width: auto"
+            alt="kawa1"
+          />
+          <h2>Espresso</h2>
+        </dev>
+        <dev id="kawa">
+          <img
+            src="link/obrazy/pngegg.png"
+            style="height: 120px; width: auto"
+            alt="kawa2"
+          />
+          <h2>Cappuccino</h2>
+        </dev>
+        <dev id="kawa">
+          <img
+            src="link/obrazy/—Pngtree—glass of coffee latte on_20853891.png"
+            style="height: 120px; width: auto"
+            alt="kawa3"
+          />
+          <h2>Latte</h2>
+        </dev>
+      </dev>
+    </dev>
+    <dev id="info-Onas">
+      <h1>O nas</h1>
+      <dev id="Onas">
+        <a>
+          Witaj w Kawiarni Ziarenko – miejscu, gdzie pasja do kawy spotyka się z
+          domowym ciepłem, a każdy łyk opowiada historię starannie wybranych
+          ziaren. Nasza przygoda zaczęła się od prostego marzenia o stworzeniu
+          przestrzeni, w której czas zwalnia, a aromat świeżo mielonej kawy
+          staje się tłem dla ważnych rozmów i chwil wytchnienia. W „Ziarenku”
+          wierzymy, że dobra kawa to coś więcej niż napój – to rytuał, który
+          zasługuje na najlepszą oprawę, dlatego współpracujemy z lokalnymi
+          palarniami, wybierając wyłącznie najwyższej jakości ziarna z
+          zrównoważonych upraw. Do filiżanki ulubionego naparu serwujemy nasze
+          domowe wypieki, przygotowywane na miejscu według tradycyjnych
+          receptur. Wpadnij do nas na chwilę, zostań na dłużej i poczuj magię
+          zamkniętą w każdym ziarenku.</a
+        >
+      </dev>
+    </dev>
+    <dev id="Kontakt">
+      <h1>Kontakt</h1>
+      <p>Adres: ul. Kawiarniana 123, 00-000 Miasto</p>
+      <p>Telefon: +48 123 456 789</p>
+      <p>Email: kawiarniaziarenko@gmail.com</p>
+    </dev>
+  </body>
 </html>
